@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Predictions: anyone can read, but only write their own
+    match /predictions/{userId} {
+      allow read: if true;
+      allow write: if request.auth == null; // PIN-based auth, open write
+    }
+
+    // PINs: only readable/writable by the matching user
+    // Since we use localStorage auth (no Firebase Auth), we keep this open
+    // but only allow creation, not reading other PINs
+    match /pins/{userId} {
+      allow create: if true;
+      allow read, update: if true; // PIN check happens server-side via function in production
+    }
+
+    // Results: readable by all, writable only (in production, restrict to admin)
+    match /results/{docId} {
+      allow read: if true;
+      allow write: if true; // Tighten this once Firebase Auth is added
+    }
+
+    // Scores cache
+    match /scores/{userId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

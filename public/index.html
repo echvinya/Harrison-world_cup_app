@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WC2026">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="theme-color" content="#C9A84C">
+<title>WC2026 Family Bracket</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dim:#8B6F35;--black:#0A0A0A;--surface:#111111;--surface-2:#1A1A1A;--surface-3:#242424;--border:rgba(201,168,76,0.2);--border-bright:rgba(201,168,76,0.5);--text:#F0EDE6;--text-dim:#8A8680;--green:#27AE60;--blue:#2980B9;--red:#C0392B;}
+body{background:var(--black);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+.header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.header-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;background:linear-gradient(135deg,#E8C96A,#C9A84C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.admin-badge{background:linear-gradient(135deg,#C9A84C,#8B6F35);color:var(--black);font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;padding:3px 8px;border-radius:4px;font-weight:700;}
+.user-badge{display:flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:5px 12px 5px 6px;cursor:pointer;}
+.user-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--black);}
+.user-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;}
+.nav-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:56px;z-index:90;}
+.nav-tab{flex:1;padding:13px 4px;text-align:center;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;white-space:nowrap;}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.page-hero{background:linear-gradient(180deg,rgba(201,168,76,0.07) 0%,transparent 100%);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+.page-hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:2px;}
+.page-hero-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;}
+.page-hero-sub{font-size:11px;color:var(--text-dim);margin-top:2px;}
+.action-btn{background:linear-gradient(135deg,#C9A84C,#8B6F35);border:none;border-radius:10px;padding:10px 20px;color:var(--black);font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 16px rgba(201,168,76,0.25);white-space:nowrap;}
+.filter-wrap{border-bottom:1px solid rgba(201,168,76,0.1);position:relative;background:var(--surface-2);}
+.filter-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:100%;z-index:10;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--gold);}
+.filter-arrow.left{left:0;background:linear-gradient(90deg,var(--surface-2) 60%,transparent);}
+.filter-arrow.right{right:0;background:linear-gradient(270deg,var(--surface-2) 60%,transparent);}
+.filter-arrow.hidden{opacity:0;pointer-events:none;}
+.group-filter{padding:10px 36px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth;}
+.group-filter::-webkit-scrollbar{display:none;}
+.filter-btn{flex-shrink:0;background:var(--surface-3);border:1px solid rgba(201,168,76,0.15);border-radius:20px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;color:var(--text-dim);cursor:pointer;transition:all 0.15s;text-transform:uppercase;}
+.filter-btn.active{background:rgba(201,168,76,0.15);border-color:var(--gold);color:var(--gold);}
+.groups-container{padding:14px;padding-bottom:100px;}
+.group-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:14px;overflow:hidden;}
+.group-header{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:rgba(201,168,76,0.04);border-bottom:1px solid rgba(201,168,76,0.1);}
+.group-label{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);}
+.group-positions{display:flex;gap:4px;}
+.pos-badge{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1px;padding:2px 7px;border-radius:10px;text-transform:uppercase;font-weight:700;}
+.pos-1st{background:rgba(201,168,76,0.2);color:var(--gold);}
+.pos-2nd{background:rgba(41,128,185,0.2);color:#5DADE2;}
+.pos-3rd{background:rgba(39,174,96,0.15);color:var(--green);}
+.pos-4th{background:rgba(255,255,255,0.05);color:var(--text-dim);}
+.team-list{padding:8px;display:flex;flex-direction:column;gap:6px;}
+.team-card{border-radius:12px;height:68px;display:flex;align-items:stretch;cursor:grab;border:1px solid rgba(255,255,255,0.1);user-select:none;touch-action:none;-webkit-user-select:none;overflow:hidden;transition:opacity 0.15s;}
+.team-card.dragging{opacity:0.4;}
+.card-flag-panel{width:90px;flex-shrink:0;position:relative;overflow:hidden;}
+.card-flag-img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.card-flag-panel::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0) 60%,rgba(0,0,0,0.35) 100%);}
+.card-color-strip{width:4px;flex-shrink:0;}
+.card-body{flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;gap:8px;}
+.card-handle{padding:0 4px;color:rgba(255,255,255,0.2);font-size:14px;flex-shrink:0;}
+.card-info{flex:1;min-width:0;}
+.team-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.team-sub{display:flex;align-items:center;gap:6px;margin-top:2px;}
+.team-ranking{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1px;}
+.card-pos{flex-shrink:0;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;}
+.third-rank-card{border-radius:12px;height:62px;display:flex;align-items:stretch;cursor:grab;border:1px solid rgba(255,255,255,0.1);overflow:hidden;user-select:none;touch-action:none;-webkit-user-select:none;transition:opacity 0.15s;}
+.third-rank-card.dragging{opacity:0.4;}
+.trcard-rank{width:42px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;background:rgba(0,0,0,0.3);border-right:1px solid rgba(255,255,255,0.08);}
+.trcard-rank.q{color:var(--green);}
+.trcard-rank.nq{color:rgba(255,255,255,0.25);}
+.trcard-flag{width:72px;flex-shrink:0;position:relative;overflow:hidden;}
+.trcard-flag img{width:100%;height:100%;object-fit:cover;}
+.trcard-strip{width:3px;flex-shrink:0;}
+.trcard-body{flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;gap:8px;}
+.trcard-info{flex:1;min-width:0;}
+.trcard-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.trcard-meta{font-size:10px;margin-top:2px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;}
+.trcard-handle{padding:0 6px;color:rgba(255,255,255,0.2);font-size:14px;}
+.qualify-badge{flex-shrink:0;font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;padding:3px 7px;border-radius:4px;text-transform:uppercase;}
+.qualify-badge.yes{background:rgba(39,174,96,0.15);color:var(--green);}
+.qualify-badge.no{background:rgba(255,255,255,0.05);color:var(--text-dim);}
+.divider-8{height:2px;background:rgba(39,174,96,0.3);border-radius:1px;margin:6px 0;position:relative;}
+.divider-8::before{content:'TOP 8 ADVANCE';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--black);padding:0 8px;font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;color:var(--green);white-space:nowrap;}
+.versus-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;}
+.versus-header{padding:8px 14px;background:rgba(201,168,76,0.04);border-bottom:1px solid rgba(201,168,76,0.08);display:flex;align-items:center;justify-content:space-between;}
+.versus-match-id{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;color:var(--text-dim);}
+.pts-badge{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1px;padding:2px 7px;border-radius:4px;background:rgba(201,168,76,0.12);color:var(--gold);}
+.versus-body{display:flex;align-items:stretch;min-height:80px;}
+.versus-side{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px;cursor:pointer;transition:background 0.15s;gap:6px;}
+.versus-side:active{background:rgba(201,168,76,0.08);}
+.versus-side.picked{background:rgba(201,168,76,0.12);}
+.versus-side.tbd{cursor:default;opacity:0.5;}
+.versus-divider{width:1px;background:rgba(255,255,255,0.06);flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center;}
+.versus-divider::after{content:'VS';position:absolute;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;color:var(--text-dim);background:var(--surface);padding:4px 0;writing-mode:vertical-rl;}
+.vs-flag{width:52px;height:34px;border-radius:5px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.4);}
+.vs-flag img{width:100%;height:100%;object-fit:cover;}
+.vs-flag-ph{width:52px;height:34px;border-radius:5px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;color:var(--text-dim);}
+.vs-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.5px;text-align:center;line-height:1.2;}
+.vs-sub{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1px;color:rgba(255,255,255,0.4);text-align:center;}
+.pick-ind{width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;}
+.versus-side.picked .pick-ind{background:var(--gold);border-color:var(--gold);color:var(--black);}
+.round-tabs{display:flex;padding:10px 12px;gap:6px;overflow-x:auto;scrollbar-width:none;background:var(--surface-2);border-bottom:1px solid var(--border);}
+.round-tabs::-webkit-scrollbar{display:none;}
+.round-tab{flex-shrink:0;padding:7px 14px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);color:var(--text-dim);transition:all 0.15s;}
+.round-tab.active{background:rgba(201,168,76,0.15);border-color:var(--gold);color:var(--gold);}
+.quad-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.quad-btn{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 12px;cursor:pointer;text-align:center;transition:all 0.2s;}
+.quad-btn.active,.quad-btn:active{border-color:var(--gold);background:rgba(201,168,76,0.07);}
+.quad-btn.done{border-color:rgba(39,174,96,0.4);}
+.quad-num{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;color:var(--text-dim);margin-bottom:3px;}
+.quad-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;}
+.quad-prog{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;margin-top:4px;}
+.quad-prog.done{color:var(--green);}
+.quad-prog.partial{color:var(--gold);}
+.lb-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+.lb-row{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background 0.15s;}
+.lb-row:last-child{border-bottom:none;}
+.lb-row:active{background:rgba(201,168,76,0.06);}
+.lb-row.you{background:rgba(201,168,76,0.06);}
+.lb-rank{font-family:'Bebas Neue',sans-serif;font-size:22px;width:32px;flex-shrink:0;}
+.lb-rank.r1{color:var(--gold);}
+.lb-rank.r2{color:#C0C0C0;}
+.lb-rank.r3{color:#CD7F32;}
+.lb-rank.rn{color:var(--text-dim);}
+.lb-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--black);margin-right:10px;flex-shrink:0;}
+.lb-info{flex:1;min-width:0;}
+.lb-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px;display:flex;align-items:center;gap:6px;}
+.you-tag{font-size:9px;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,0.15);padding:2px 5px;border-radius:3px;}
+.lb-sub{font-size:10px;color:var(--text-dim);margin-top:1px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;}
+.lb-score{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;color:var(--gold-light);text-align:right;}
+.lb-score-sub{font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-align:right;}
+.home-hero{background:linear-gradient(180deg,rgba(201,168,76,0.1) 0%,transparent 100%);border-bottom:1px solid var(--border);padding:24px 16px 20px;text-align:center;position:relative;overflow:hidden;}
+.home-hero::before{content:'2026';position:absolute;font-family:'Bebas Neue',sans-serif;font-size:120px;color:rgba(201,168,76,0.04);top:50%;left:50%;transform:translate(-50%,-50%);letter-spacing:8px;pointer-events:none;}
+.hero-trophy{font-size:52px;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin:8px 0 2px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;margin-bottom:12px;}
+.status-pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.status-text{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;}
+.phase-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px;}
+.phase-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.2s;}
+.phase-card:active{transform:scale(0.97);}
+.phase-icon{font-size:28px;margin-bottom:10px;}
+.phase-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.phase-meta{font-size:11px;color:var(--text-dim);}
+.phase-status{display:inline-block;margin-top:8px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;padding:3px 8px;border-radius:4px;text-transform:uppercase;}
+.phase-status.open{background:rgba(39,174,96,0.15);color:var(--green);}
+.phase-status.locked-s{background:rgba(255,255,255,0.05);color:var(--text-dim);}
+.section-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin:16px 0 8px 2px;}
+.section-lbl:first-child{margin-top:0;}
+.info-hint{background:var(--surface-2);border:1px solid rgba(201,168,76,0.15);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:var(--text-dim);line-height:1.6;}
+.info-hint strong{color:var(--gold-light);}
+.admin-panel{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.25);border-radius:14px;padding:16px;margin-bottom:14px;}
+.admin-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;}
+.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.admin-btn{background:var(--surface-2);border:1px solid var(--border-bright);border-radius:8px;padding:10px 12px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-align:center;}
+.admin-btn:active{background:rgba(201,168,76,0.12);}
+.admin-btn.full{grid-column:1/-1;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;display:flex;flex-direction:column;justify-content:flex-end;}
+.modal-sheet{background:#1A1A1A;border-radius:20px 20px 0 0;border:1px solid rgba(201,168,76,0.2);max-height:88vh;display:flex;flex-direction:column;}
+.modal-header{padding:18px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);}
+.modal-sub{font-size:11px;color:var(--text-dim);margin-top:2px;}
+.modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text-dim);border:none;flex-shrink:0;}
+.modal-body{overflow-y:auto;padding:16px;flex:1;}
+.modal-btn-row{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0;}
+.modal-btn{flex:1;padding:13px;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;border:none;}
+.modal-btn.primary{background:linear-gradient(135deg,#C9A84C,#8B6F35);color:var(--black);}
+.modal-btn.secondary{background:var(--surface-3);color:var(--text-dim);border:1px solid var(--border);}
+.login-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.12) 0%,transparent 70%);}
+.login-title{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:4px;background:linear-gradient(135deg,#E8C96A,#C9A84C,#8B6F35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;line-height:1;margin-bottom:4px;}
+.login-subtitle{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:6px;color:var(--text-dim);text-transform:uppercase;text-align:center;margin-bottom:40px;}
+.login-card{width:100%;max-width:360px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 22px;}
+.login-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block;}
+.name-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
+.name-chip{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;text-align:center;transition:all 0.15s;}
+.name-chip:active,.name-chip.active{background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold-light);}
+.name-chip.admin-chip{border-color:rgba(201,168,76,0.3);}
+.pin-display{display:flex;justify-content:center;gap:10px;margin:16px 0;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border-bright);transition:all 0.15s;}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold);}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.pin-key{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text);transition:all 0.1s;}
+.pin-key:active{background:rgba(201,168,76,0.15);border-color:var(--gold);}
+.pin-error{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:var(--red);text-align:center;margin-bottom:10px;min-height:18px;}
+.breakdown-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+.breakdown-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
+.breakdown-row:last-child{border-bottom:none;}
+.result-group-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:8px;}
+.result-team-row{display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);gap:10px;}
+.result-team-row:last-child{border-bottom:none;}
+.result-flag{width:36px;height:24px;border-radius:3px;overflow:hidden;flex-shrink:0;}
+.result-flag img{width:100%;height:100%;object-fit:cover;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom);}
+.bottom-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 8px 10px;cursor:pointer;gap:3px;}
+.bnav-icon{font-size:20px;}
+.bnav-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);}
+.bottom-nav-item.active .bnav-label{color:var(--gold);}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--surface-3);border:1px solid var(--border-bright);border-radius:10px;padding:10px 20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:2px;color:var(--gold);z-index:300;opacity:0;transition:opacity 0.3s;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;}
+.content{padding:14px 14px 100px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.screen{animation:fadeIn 0.25s ease;}
+</style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div id="app"></div>
+<script type="module">
+// ═══════════════════════════════════════════════
+// PART 2: STATIC DATA (teams, groups, match defs)
+// ═══════════════════════════════════════════════
+
+const FLAG_BASE = 'https://flagcdn.com/w80/';
+const FLAG_CODES = {MEX:'mx',RSA:'za',KOR:'kr',CZE:'cz',CAN:'ca',BIH:'ba',QAT:'qa',SUI:'ch',BRA:'br',MAR:'ma',HAI:'ht',SCO:'gb-sct',USA:'us',PAR:'py',AUS:'au',TUR:'tr',GER:'de',CUW:'cw',CIV:'ci',ECU:'ec',NED:'nl',JPN:'jp',SWE:'se',TUN:'tn',BEL:'be',EGY:'eg',IRN:'ir',NZL:'nz',ESP:'es',CPV:'cv',KSA:'sa',URU:'uy',FRA:'fr',SEN:'sn',IRQ:'iq',NOR:'no',ARG:'ar',ALG:'dz',AUT:'at',JOR:'jo',POR:'pt',COD:'cd',UZB:'uz',COL:'co',ENG:'gb-eng',CRO:'hr',GHA:'gh',PAN:'pa'};
+const furl = id => FLAG_BASE + (FLAG_CODES[id]||'un') + '.png';
+
+const TEAMS = {
+  MEX:{name:'Mexico',r:15,w:0,c:'#006847'},RSA:{name:'South Africa',r:60,w:0,c:'#007A4D'},KOR:{name:'Korea Republic',r:25,w:0,c:'#CD2E3A'},CZE:{name:'Czechia',r:41,w:0,c:'#D7141A'},CAN:{name:'Canada',r:30,w:0,c:'#FF0000'},BIH:{name:'Bosnia & Herz.',r:52,w:0,c:'#002395'},QAT:{name:'Qatar',r:35,w:0,c:'#8D1B3D'},SUI:{name:'Switzerland',r:19,w:0,c:'#CC0000'},BRA:{name:'Brazil',r:6,w:5,c:'#009C3B'},MAR:{name:'Morocco',r:8,w:0,c:'#C1272D'},HAI:{name:'Haiti',r:92,w:0,c:'#00209F'},SCO:{name:'Scotland',r:47,w:0,c:'#003F87'},USA:{name:'United States',r:16,w:0,c:'#002868'},PAR:{name:'Paraguay',r:68,w:0,c:'#D52B1E'},AUS:{name:'Australia',r:26,w:0,c:'#00843D'},TUR:{name:'Türkiye',r:42,w:0,c:'#E30A17'},GER:{name:'Germany',r:10,w:4,c:'#1a1a1a'},CUW:{name:'Curaçao',r:83,w:0,c:'#002B7F'},CIV:{name:'Ivory Coast',r:33,w:0,c:'#F77F00'},ECU:{name:'Ecuador',r:24,w:0,c:'#FFD100'},NED:{name:'Netherlands',r:7,w:0,c:'#FF4F00'},JPN:{name:'Japan',r:18,w:0,c:'#003087'},SWE:{name:'Sweden',r:39,w:0,c:'#006AA7'},TUN:{name:'Tunisia',r:40,w:0,c:'#E70013'},BEL:{name:'Belgium',r:9,w:0,c:'#EF3340'},EGY:{name:'Egypt',r:29,w:0,c:'#CE1126'},IRN:{name:'Iran',r:21,w:0,c:'#239F40'},NZL:{name:'New Zealand',r:85,w:0,c:'#00247D'},ESP:{name:'Spain',r:2,w:1,c:'#AA151B'},CPV:{name:'Cape Verde',r:73,w:0,c:'#003893'},KSA:{name:'Saudi Arabia',r:57,w:0,c:'#006C35'},URU:{name:'Uruguay',r:17,w:2,c:'#5AAADC'},FRA:{name:'France',r:1,w:2,c:'#002395'},SEN:{name:'Senegal',r:14,w:0,c:'#00853F'},IRQ:{name:'Iraq',r:65,w:0,c:'#CE1126'},NOR:{name:'Norway',r:44,w:0,c:'#EF2B2D'},ARG:{name:'Argentina',r:3,w:3,c:'#74ACDF'},ALG:{name:'Algeria',r:36,w:0,c:'#006233'},AUT:{name:'Austria',r:23,w:0,c:'#ED2939'},JOR:{name:'Jordan',r:76,w:0,c:'#007A3D'},POR:{name:'Portugal',r:5,w:0,c:'#006600'},COD:{name:'DR Congo',r:51,w:0,c:'#007FFF'},UZB:{name:'Uzbekistan',r:62,w:0,c:'#1EB53A'},COL:{name:'Colombia',r:13,w:0,c:'#FCD116'},ENG:{name:'England',r:4,w:1,c:'#FFFFFF'},CRO:{name:'Croatia',r:11,w:0,c:'#CC0000'},GHA:{name:'Ghana',r:63,w:0,c:'#006B3F'},PAN:{name:'Panama',r:53,w:0,c:'#DA121A'},
+};
+
+const GROUPS_DEFAULT = {A:['MEX','RSA','KOR','CZE'],B:['CAN','BIH','QAT','SUI'],C:['BRA','MAR','HAI','SCO'],D:['USA','PAR','AUS','TUR'],E:['GER','CUW','CIV','ECU'],F:['NED','JPN','SWE','TUN'],G:['BEL','EGY','IRN','NZL'],H:['ESP','CPV','KSA','URU'],I:['FRA','SEN','IRQ','NOR'],J:['ARG','ALG','AUT','JOR'],K:['POR','COD','UZB','COL'],L:['ENG','CRO','GHA','PAN']};
+
+const FAMILY_MEMBERS = [
+  {name:'Daddy',  isAdmin:true,  color:'#C9A84C', pinLength:6},
+  {name:'Mommy',  isAdmin:false, color:'#9B59B6', pinLength:4},
+  {name:'Kal-El', isAdmin:false, color:'#E74C3C', pinLength:4},
+  {name:'Leia',   isAdmin:false, color:'#2ECC71', pinLength:4},
+  {name:'Pippin', isAdmin:false, color:'#3498DB', pinLength:4},
+  {name:'Amelia', isAdmin:false, color:'#E67E22', pinLength:4},
+];
+
+const PTS = {
+  QUALIFIES:500, EXACT_POSITION:1000, THIRD_GROUP_ID:1500, FULL_GROUP:3000,
+  KO:{
+    pre:       {r32:8000,r16:11000,qf:15000,sf:20000,final:27000},
+    groups:    {r32:6000,r16:8000, qf:11000,sf:15000,final:20000},
+    after_r32: {r32:0,   r16:6000, qf:8000, sf:11000,final:15000},
+    after_r16: {r32:0,   r16:0,    qf:6000, sf:8000, final:11000},
+    after_qf:  {r32:0,   r16:0,    qf:0,    sf:6000, final:8000},
+    after_sf:  {r32:0,   r16:0,    qf:0,    sf:0,    final:6000},
+  }
+};
+
+const R32_DEFS=[
+  {id:'M73',pts:8000,quad:1,top:{type:'runner',group:'A'},bot:{type:'runner',group:'B'}},
+  {id:'M74',pts:8000,quad:1,top:{type:'winner',group:'E'},bot:{type:'third_slot',acSlot:'1E'}},
+  {id:'M75',pts:8000,quad:1,top:{type:'winner',group:'F'},bot:{type:'runner',group:'C'}},
+  {id:'M77',pts:8000,quad:1,top:{type:'winner',group:'I'},bot:{type:'third_slot',acSlot:'1I'}},
+  {id:'M76',pts:8000,quad:2,top:{type:'winner',group:'C'},bot:{type:'runner',group:'F'}},
+  {id:'M78',pts:8000,quad:2,top:{type:'runner',group:'E'},bot:{type:'runner',group:'I'}},
+  {id:'M79',pts:8000,quad:2,top:{type:'winner',group:'A'},bot:{type:'third_slot',acSlot:'1A'}},
+  {id:'M80',pts:8000,quad:2,top:{type:'winner',group:'L'},bot:{type:'third_slot',acSlot:'1L'}},
+  {id:'M83',pts:8000,quad:3,top:{type:'runner',group:'K'},bot:{type:'runner',group:'L'}},
+  {id:'M84',pts:8000,quad:3,top:{type:'winner',group:'H'},bot:{type:'runner',group:'J'}},
+  {id:'M81',pts:8000,quad:3,top:{type:'winner',group:'D'},bot:{type:'third_slot',acSlot:'1D'}},
+  {id:'M82',pts:8000,quad:3,top:{type:'winner',group:'G'},bot:{type:'third_slot',acSlot:'1G'}},
+  {id:'M86',pts:8000,quad:4,top:{type:'winner',group:'J'},bot:{type:'runner',group:'H'}},
+  {id:'M88',pts:8000,quad:4,top:{type:'runner',group:'D'},bot:{type:'runner',group:'G'}},
+  {id:'M85',pts:8000,quad:4,top:{type:'winner',group:'B'},bot:{type:'third_slot',acSlot:'1B'}},
+  {id:'M87',pts:8000,quad:4,top:{type:'winner',group:'K'},bot:{type:'third_slot',acSlot:'1K'}},
+];
+const R16_DEFS=[
+  {id:'R16-1',pts:11000,quad:1,from:['M73','M75']},{id:'R16-2',pts:11000,quad:1,from:['M74','M77']},
+  {id:'R16-3',pts:11000,quad:2,from:['M76','M78']},{id:'R16-4',pts:11000,quad:2,from:['M79','M80']},
+  {id:'R16-5',pts:11000,quad:3,from:['M83','M84']},{id:'R16-6',pts:11000,quad:3,from:['M81','M82']},
+  {id:'R16-7',pts:11000,quad:4,from:['M86','M88']},{id:'R16-8',pts:11000,quad:4,from:['M85','M87']},
+];
+const QF_DEFS=[
+  {id:'QF1',pts:15000,from:['R16-1','R16-2']},{id:'QF2',pts:15000,from:['R16-3','R16-4']},
+  {id:'QF3',pts:15000,from:['R16-5','R16-6']},{id:'QF4',pts:15000,from:['R16-7','R16-8']},
+];
+const SF_DEFS=[{id:'SF1',pts:20000,from:['QF1','QF2']},{id:'SF2',pts:20000,from:['QF3','QF4']}];
+const FINAL_DEF={id:'FINAL',pts:27000,from:['SF1','SF2']};
+const ALL_KO_MATCHES = [...R32_DEFS,...R16_DEFS,...QF_DEFS,...SF_DEFS,FINAL_DEF];
+
+// PART 3: ANNEX C LOOKUP TABLE (495 rows)
+const ANNEX_C = {
+  "ABCDEFGH":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3E"},
+  "ABCDEFGI":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ABCDEFGJ":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3J"},
+  "ABCDEFGK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ABCDEFGL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ABCDEFHI":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3I"},
+  "ABCDEFHJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3E"},
+  "ABCDEFHK":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3K"},
+  "ABCDEFHL":{"1A":"3H","1B":"3F","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3E"},
+  "ABCDEFIJ":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ABCDEFIK":{"1A":"3C","1B":"3E","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCDEFIL":{"1A":"3C","1B":"3E","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCDEFJK":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ABCDEFJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ABCDEFKL":{"1A":"3C","1B":"3E","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCDEGHI":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3E","1L":"3I"},
+  "ABCDEGHJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3E","1L":"3J"},
+  "ABCDEGHK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3E","1L":"3K"},
+  "ABCDEGHL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3E"},
+  "ABCDEGIJ":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3J"},
+  "ABCDEGIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ABCDEGIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ABCDEGJK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3J","1L":"3K"},
+  "ABCDEGJL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3J"},
+  "ABCDEGKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDEHIJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3E","1L":"3I"},
+  "ABCDEHIK":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ABCDEHIL":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ABCDEHJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3E","1L":"3K"},
+  "ABCDEHJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3E"},
+  "ABCDEHKL":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDEIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ABCDEIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ABCDEIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDEJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDFGHI":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3I"},
+  "ABCDFGHJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3J"},
+  "ABCDFGHK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3K"},
+  "ABCDFGHL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3H"},
+  "ABCDFGIJ":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3J"},
+  "ABCDFGIK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCDFGIL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCDFGJK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3J","1L":"3K"},
+  "ABCDFGJL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3J"},
+  "ABCDFGKL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCDFHIJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3I"},
+  "ABCDFHIK":{"1A":"3H","1B":"3F","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ABCDFHIL":{"1A":"3H","1B":"3F","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ABCDFHJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3K"},
+  "ABCDFHJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3H"},
+  "ABCDFHKL":{"1A":"3H","1B":"3F","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDFIJK":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCDFIJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCDFIKL":{"1A":"3C","1B":"3I","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCDFJKL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCDGHIJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3J"},
+  "ABCDGHIK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ABCDGHIL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ABCDGHJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3J","1L":"3K"},
+  "ABCDGHJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3J"},
+  "ABCDGHKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDGIJK":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABCDGIJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABCDGIKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDGJKL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABCDHIJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ABCDHIJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ABCDHIKL":{"1A":"3H","1B":"3I","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDHJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCDIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ABCEFGHI":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ABCEFGHJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3E","1L":"3J"},
+  "ABCEFGHK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ABCEFGHL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ABCEFGIJ":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3J"},
+  "ABCEFGIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCEFGIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCEFGJK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3J","1L":"3K"},
+  "ABCEFGJL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3J"},
+  "ABCEFGKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCEFHIJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ABCEFHIK":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCEFHIL":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCEFHJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ABCEFHJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ABCEFHKL":{"1A":"3H","1B":"3E","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCEFIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCEFIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCEFIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCEFJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCEGHIJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3E","1L":"3I"},
+  "ABCEGHIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ABCEGHIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ABCEGHJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3E","1L":"3K"},
+  "ABCEGHJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3E"},
+  "ABCEGHKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABCEGIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABCEGIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABCEGIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3A","1G":"3I","1I":"3C","1K":"3L","1L":"3K"},
+  "ABCEGJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABCEHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ABCEHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ABCEHIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABCEHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABCEIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3I","1I":"3C","1K":"3L","1L":"3K"},
+  "ABCFGHIJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3J"},
+  "ABCFGHIK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCFGHIL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCFGHJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3J","1L":"3K"},
+  "ABCFGHJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3J"},
+  "ABCFGHKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCFGIJK":{"1A":"3C","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABCFGIJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABCFGIKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCFGJKL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABCFHIJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABCFHIJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABCFHIKL":{"1A":"3H","1B":"3I","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCFHJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCFIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABCGHIJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABCGHIJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABCGHIKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABCGHJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABCGIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABCHIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABDEFGHI":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ABDEFGHJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3J"},
+  "ABDEFGHK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ABDEFGHL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ABDEFGIJ":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3J"},
+  "ABDEFGIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABDEFGIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABDEFGJK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3J","1L":"3K"},
+  "ABDEFGJL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3J"},
+  "ABDEFGKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDEFHIJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ABDEFHIK":{"1A":"3H","1B":"3E","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABDEFHIL":{"1A":"3H","1B":"3E","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABDEFHJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ABDEFHJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ABDEFHKL":{"1A":"3H","1B":"3E","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDEFIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABDEFIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABDEFIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDEFJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDEGHIJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3E","1L":"3I"},
+  "ABDEGHIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ABDEGHIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ABDEGHJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3E","1L":"3K"},
+  "ABDEGHJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3E"},
+  "ABDEGHKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABDEGIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABDEGIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABDEGIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3A","1G":"3I","1I":"3D","1K":"3L","1L":"3K"},
+  "ABDEGJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABDEHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ABDEHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ABDEHIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABDEHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABDEIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3I","1I":"3D","1K":"3L","1L":"3K"},
+  "ABDFGHIJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3J"},
+  "ABDFGHIK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABDFGHIL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABDFGHJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3J","1L":"3K"},
+  "ABDFGHJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3J"},
+  "ABDFGHKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDFGIJK":{"1A":"3F","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABDFGIJL":{"1A":"3F","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABDFGIKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDFGJKL":{"1A":"3F","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABDFHIJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ABDFHIJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ABDFHIKL":{"1A":"3H","1B":"3I","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDFHJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDFIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ABDGHIJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABDGHIJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABDGHIKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABDGHJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABDGIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABDHIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABEFGHIJ":{"1A":"3H","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3E","1L":"3I"},
+  "ABEFGHIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3F","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ABEFGHIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ABEFGHJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3E","1L":"3K"},
+  "ABEFGHJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3E"},
+  "ABEFGHKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABEFGIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABEFGIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABEFGIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3A","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "ABEFGJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABEFHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ABEFHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ABEFHIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABEFHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ABEFIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "ABEGHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3H","1I":"3G","1K":"3I","1L":"3K"},
+  "ABEGHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3H","1I":"3G","1K":"3L","1L":"3I"},
+  "ABEGHIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3A","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "ABEGHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "ABEGIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "ABEHIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3A","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "ABFGHIJK":{"1A":"3H","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3I","1L":"3K"},
+  "ABFGHIJL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3I"},
+  "ABFGHIKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3A","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "ABFGHJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABFGIJKL":{"1A":"3I","1B":"3J","1D":"3B","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ABFHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3A","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "ABGHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3A","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "ACDEFGHI":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3I"},
+  "ACDEFGHJ":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3E"},
+  "ACDEFGHK":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3K"},
+  "ACDEFGHL":{"1A":"3H","1B":"3G","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3E"},
+  "ACDEFGIJ":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ACDEFGIK":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ACDEFGIL":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ACDEFGJK":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ACDEFGJL":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ACDEFGKL":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACDEFHIJ":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3I"},
+  "ACDEFHIK":{"1A":"3H","1B":"3E","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ACDEFHIL":{"1A":"3H","1B":"3E","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ACDEFHJK":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3K"},
+  "ACDEFHJL":{"1A":"3H","1B":"3J","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3E"},
+  "ACDEFHKL":{"1A":"3H","1B":"3E","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDEFIJK":{"1A":"3C","1B":"3J","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ACDEFIJL":{"1A":"3C","1B":"3J","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ACDEFIKL":{"1A":"3C","1B":"3E","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACDEFJKL":{"1A":"3C","1B":"3J","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACDEGHIJ":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3E","1L":"3I"},
+  "ACDEGHIK":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ACDEGHIL":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ACDEGHJK":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3E","1L":"3K"},
+  "ACDEGHJL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3E"},
+  "ACDEGHKL":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDEGIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ACDEGIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ACDEGIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDEGJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDEHIJK":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ACDEHIJL":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ACDEHIKL":{"1A":"3H","1B":"3E","1D":"3I","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDEHJKL":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDEIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDFGHIJ":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3I"},
+  "ACDFGHIK":{"1A":"3H","1B":"3G","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ACDFGHIL":{"1A":"3H","1B":"3G","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ACDFGHJK":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3D","1L":"3K"},
+  "ACDFGHJL":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3H"},
+  "ACDFGHKL":{"1A":"3H","1B":"3G","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDFGIJK":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ACDFGIJL":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ACDFGIKL":{"1A":"3C","1B":"3G","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACDFGJKL":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACDFHIJK":{"1A":"3H","1B":"3J","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ACDFHIJL":{"1A":"3H","1B":"3J","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ACDFHIKL":{"1A":"3H","1B":"3F","1D":"3I","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDFHJKL":{"1A":"3H","1B":"3J","1D":"3F","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDFIJKL":{"1A":"3C","1B":"3J","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACDGHIJK":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3I","1L":"3K"},
+  "ACDGHIJL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3I"},
+  "ACDGHIKL":{"1A":"3H","1B":"3G","1D":"3I","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDGHJKL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDGIJKL":{"1A":"3I","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACDHIJKL":{"1A":"3H","1B":"3J","1D":"3I","1E":"3C","1G":"3A","1I":"3D","1K":"3L","1L":"3K"},
+  "ACEFGHIJ":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ACEFGHIK":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ACEFGHIL":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ACEFGHJK":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ACEFGHJL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ACEFGHKL":{"1A":"3H","1B":"3G","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACEFGIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ACEFGIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ACEFGIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACEFGJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACEFHIJK":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ACEFHIJL":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ACEFHIKL":{"1A":"3H","1B":"3E","1D":"3I","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACEFHJKL":{"1A":"3H","1B":"3J","1D":"3E","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACEFIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACEGHIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ACEGHIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ACEGHIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ACEGHJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ACEGIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ACEHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3C","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ACFGHIJK":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ACFGHIJL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ACFGHIKL":{"1A":"3H","1B":"3G","1D":"3I","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACFGHJKL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACFGIJKL":{"1A":"3I","1B":"3G","1D":"3J","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACFHIJKL":{"1A":"3H","1B":"3J","1D":"3I","1E":"3C","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ACGHIJKL":{"1A":"3H","1B":"3J","1D":"3I","1E":"3C","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ADEFGHIJ":{"1A":"3H","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3I"},
+  "ADEFGHIK":{"1A":"3H","1B":"3G","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ADEFGHIL":{"1A":"3H","1B":"3G","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ADEFGHJK":{"1A":"3H","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3E","1L":"3K"},
+  "ADEFGHJL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3E"},
+  "ADEFGHKL":{"1A":"3H","1B":"3G","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADEFGIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ADEFGIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ADEFGIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADEFGJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADEFHIJK":{"1A":"3H","1B":"3J","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ADEFHIJL":{"1A":"3H","1B":"3J","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ADEFHIKL":{"1A":"3H","1B":"3E","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADEFHJKL":{"1A":"3H","1B":"3J","1D":"3E","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADEFIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADEGHIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "ADEGHIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "ADEGHIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ADEGHJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ADEGIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "ADEHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3D","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "ADFGHIJK":{"1A":"3H","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3I","1L":"3K"},
+  "ADFGHIJL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3I"},
+  "ADFGHIKL":{"1A":"3H","1B":"3G","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADFGHJKL":{"1A":"3H","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADFGIJKL":{"1A":"3I","1B":"3G","1D":"3J","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADFHIJKL":{"1A":"3H","1B":"3J","1D":"3I","1E":"3D","1G":"3A","1I":"3F","1K":"3L","1L":"3K"},
+  "ADGHIJKL":{"1A":"3H","1B":"3J","1D":"3I","1E":"3D","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "AEFGHIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3F","1G":"3A","1I":"3H","1K":"3I","1L":"3K"},
+  "AEFGHIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3I"},
+  "AEFGHIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "AEFGHJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "AEFGIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "AEFHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3F","1G":"3A","1I":"3H","1K":"3L","1L":"3K"},
+  "AEGHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3A","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "AFGHIJKL":{"1A":"3H","1B":"3J","1D":"3I","1E":"3F","1G":"3A","1I":"3G","1K":"3L","1L":"3K"},
+  "BCDEFGHI":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3E","1L":"3I"},
+  "BCDEFGHJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3D","1L":"3E"},
+  "BCDEFGHK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3E","1L":"3K"},
+  "BCDEFGHL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3E"},
+  "BCDEFGIJ":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3E","1L":"3I"},
+  "BCDEFGIK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3E","1I":"3F","1K":"3I","1L":"3K"},
+  "BCDEFGIL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3E","1I":"3F","1K":"3L","1L":"3I"},
+  "BCDEFGJK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3E","1L":"3K"},
+  "BCDEFGJL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3E"},
+  "BCDEFGKL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3E","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDEFHIJ":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3E","1L":"3I"},
+  "BCDEFHIK":{"1A":"3C","1B":"3E","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "BCDEFHIL":{"1A":"3C","1B":"3E","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "BCDEFHJK":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3E","1L":"3K"},
+  "BCDEFHJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3E"},
+  "BCDEFHKL":{"1A":"3C","1B":"3E","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDEFIJK":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3E","1I":"3F","1K":"3I","1L":"3K"},
+  "BCDEFIJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3E","1I":"3F","1K":"3L","1L":"3I"},
+  "BCDEFIKL":{"1A":"3C","1B":"3E","1D":"3B","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDEFJKL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3E","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDEGHIJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3E","1L":"3I"},
+  "BCDEGHIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3H","1I":"3D","1K":"3I","1L":"3K"},
+  "BCDEGHIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3I"},
+  "BCDEGHJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3E","1L":"3K"},
+  "BCDEGHJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3E"},
+  "BCDEGHKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDEGIJK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3I","1L":"3K"},
+  "BCDEGIJL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3I"},
+  "BCDEGIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3I","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDEGJKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDEHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3D","1K":"3I","1L":"3K"},
+  "BCDEHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3I"},
+  "BCDEHIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDEHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDEIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3I","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDFGHIJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3D","1L":"3I"},
+  "BCDFGHIK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "BCDFGHIL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "BCDFGHJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3D","1L":"3K"},
+  "BCDFGHJL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3J"},
+  "BCDFGHKL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDFGIJK":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3I","1L":"3K"},
+  "BCDFGIJL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3I"},
+  "BCDFGIKL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDFGJKL":{"1A":"3C","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDFHIJK":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "BCDFHIJL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "BCDFHIKL":{"1A":"3C","1B":"3I","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDFHJKL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDFIJKL":{"1A":"3C","1B":"3J","1D":"3B","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BCDGHIJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3I","1L":"3K"},
+  "BCDGHIJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3I"},
+  "BCDGHIKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3I","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDGHJKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDGIJKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3K"},
+  "BCDHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3I","1I":"3D","1K":"3L","1L":"3K"},
+  "BCEFGHIJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3E","1L":"3I"},
+  "BCEFGHIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "BCEFGHIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "BCEFGHJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3E","1L":"3K"},
+  "BCEFGHJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3E"},
+  "BCEFGHKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BCEFGIJK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3I","1L":"3K"},
+  "BCEFGIJL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3I"},
+  "BCEFGIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BCEFGJKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "BCEFHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "BCEFHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "BCEFHIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BCEFHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BCEFIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BCEGHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3G","1K":"3I","1L":"3K"},
+  "BCEGHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3G","1K":"3L","1L":"3I"},
+  "BCEGHIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3C","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "BCEGHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "BCEGIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "BCEHIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3C","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "BCFGHIJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3I","1L":"3K"},
+  "BCFGHIJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3I"},
+  "BCFGHIKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BCFGHJKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "BCFGIJKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "BCFHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BCGHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3C","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "BDEFGHIJ":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3E","1L":"3I"},
+  "BDEFGHIK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "BDEFGHIL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "BDEFGHJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3E","1L":"3K"},
+  "BDEFGHJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3E"},
+  "BDEFGHKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BDEFGIJK":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3I","1L":"3K"},
+  "BDEFGIJL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3I"},
+  "BDEFGIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BDEFGJKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "BDEFHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "BDEFHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "BDEFHIKL":{"1A":"3E","1B":"3I","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BDEFHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "BDEFIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BDEGHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3G","1K":"3I","1L":"3K"},
+  "BDEGHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3G","1K":"3L","1L":"3I"},
+  "BDEGHIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3D","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "BDEGHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "BDEGIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "BDEHIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3D","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "BDFGHIJK":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3I","1L":"3K"},
+  "BDFGHIJL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3I"},
+  "BDFGHIKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BDFGHJKL":{"1A":"3H","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "BDFGIJKL":{"1A":"3I","1B":"3G","1D":"3B","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "BDFHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "BDGHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3D","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "BEFGHIJK":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3H","1I":"3G","1K":"3I","1L":"3K"},
+  "BEFGHIJL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3H","1I":"3G","1K":"3L","1L":"3I"},
+  "BEFGHIKL":{"1A":"3E","1B":"3G","1D":"3B","1E":"3F","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "BEFGHJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "BEFGIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "BEFHIJKL":{"1A":"3E","1B":"3J","1D":"3B","1E":"3F","1G":"3I","1I":"3H","1K":"3L","1L":"3K"},
+  "BEGHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3B","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "BFGHIJKL":{"1A":"3H","1B":"3J","1D":"3B","1E":"3F","1G":"3I","1I":"3G","1K":"3L","1L":"3K"},
+  "CDEFGHIJ":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3E","1L":"3I"},
+  "CDEFGHIK":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "CDEFGHIL":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "CDEFGHJK":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3E","1L":"3K"},
+  "CDEFGHJL":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3E"},
+  "CDEFGHKL":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CDEFGIJK":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3J","1I":"3F","1K":"3I","1L":"3K"},
+  "CDEFGIJL":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3I"},
+  "CDEFGIKL":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "CDEFGJKL":{"1A":"3C","1B":"3G","1D":"3E","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "CDEFHIJK":{"1A":"3C","1B":"3J","1D":"3E","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "CDEFHIJL":{"1A":"3C","1B":"3J","1D":"3E","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "CDEFHIKL":{"1A":"3C","1B":"3E","1D":"3I","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CDEFHJKL":{"1A":"3C","1B":"3J","1D":"3E","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CDEFIJKL":{"1A":"3C","1B":"3J","1D":"3E","1E":"3D","1G":"3I","1I":"3F","1K":"3L","1L":"3K"},
+  "CDEGHIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3H","1I":"3D","1K":"3I","1L":"3K"},
+  "CDEGHIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3I"},
+  "CDEGHIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3K"},
+  "CDEGHJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3K"},
+  "CDEGIJKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3K"},
+  "CDEHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3C","1G":"3H","1I":"3D","1K":"3L","1L":"3K"},
+  "CDFGHIJK":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "CDFGHIJL":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "CDFGHIKL":{"1A":"3C","1B":"3G","1D":"3I","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CDFGHJKL":{"1A":"3C","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CDFGIJKL":{"1A":"3C","1B":"3G","1D":"3I","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "CDFHIJKL":{"1A":"3C","1B":"3J","1D":"3I","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CDGHIJKL":{"1A":"3H","1B":"3G","1D":"3I","1E":"3C","1G":"3J","1I":"3D","1K":"3L","1L":"3K"},
+  "CEFGHIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "CEFGHIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "CEFGHIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CEFGHJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CEFGIJKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "CEFHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3C","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "CEGHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3C","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "CFGHIJKL":{"1A":"3H","1B":"3G","1D":"3I","1E":"3C","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "DEFGHIJK":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3I","1L":"3K"},
+  "DEFGHIJL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3I"},
+  "DEFGHIKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "DEFGHJKL":{"1A":"3E","1B":"3G","1D":"3J","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "DEFGIJKL":{"1A":"3E","1B":"3G","1D":"3I","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "DEFHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3D","1G":"3H","1I":"3F","1K":"3L","1L":"3K"},
+  "DEGHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3D","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+  "DFGHIJKL":{"1A":"3H","1B":"3G","1D":"3I","1E":"3D","1G":"3J","1I":"3F","1K":"3L","1L":"3K"},
+  "EFGHIJKL":{"1A":"3E","1B":"3J","1D":"3I","1E":"3F","1G":"3H","1I":"3G","1K":"3L","1L":"3K"},
+};
+// 495 rows loaded
+
+// ═══════════════════════════════════════════════
+// PART 4: APP LOGIC (state, Firebase, scoring, render)
+// ═══════════════════════════════════════════════
+
+// ── APP STATE ──
+let currentUser = null;
+let currentTab = 'home';
+let groupFilter = 'all';
+let bracketView = 'thirds';
+let bracketQuad = 1;
+
+let myPreds = {
+  groupPreds: JSON.parse(JSON.stringify(GROUPS_DEFAULT)),
+  thirdsRanking: ['A','B','C','D','E','F','G','H','I','J','K','L'],
+  koPicks: {},
+  bracketTier: 'pre',
+};
+let results = {groups:null, qualifyingThirds:null, ko:{}, currentStage:'groups', predictionsLocked:false};
+let allScores = [];
+let allPredictions = {};
+let unsubResults = null;
+
+// ── FIREBASE ──
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, getDocs }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey:"AIzaSyCCVhXGSMPcoiJjOCFKhvMkMZ0V7AgWKU4",
+  authDomain:"harrison-world-cup-bracket.firebaseapp.com",
+  projectId:"harrison-world-cup-bracket",
+  storageBucket:"harrison-world-cup-bracket.firebasestorage.app",
+  messagingSenderId:"547912310651",
+  appId:"1:547912310651:web:5b717a974f6a02ea54a7de"
+};
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+
+async function savePredictions() {
+  if (!currentUser) return;
+  // Always save to localStorage as backup
+  localStorage.setItem('wc2026_preds_'+currentUser.name, JSON.stringify(myPreds));
+  try {
+    await setDoc(doc(db,'predictions',currentUser.name), {...myPreds, updatedAt:new Date().toISOString()});
+    showToast('✓ Saved!');
+  } catch(e) {
+    showToast('✓ Saved locally (will sync when online)');
+  }
+}
+window.savePredictions = savePredictions;
+
+async function saveResults() {
+  if (!currentUser?.isAdmin) return;
+  try {
+    await setDoc(doc(db,'results','current'), {...results, updatedAt:new Date().toISOString()});
+  } catch(e) { showToast('Save failed'); }
+}
+
+function listenToResults() {
+  if (unsubResults) unsubResults();
+  unsubResults = onSnapshot(doc(db,'results','current'), snap => {
+    if (snap.exists()) { results = {...results,...snap.data()}; recomputeAllScores(); rerender(); }
+  });
+}
+
+async function loadAllPredictions() {
+  try {
+    const snap = await getDocs(collection(db,'predictions'));
+    snap.forEach(d => { allPredictions[d.id] = d.data(); });
+    recomputeAllScores();
+  } catch(e) {}
+}
+
+async function checkPin(name, pin) {
+  const lsKey = 'wc2026_pin_' + name;
+  // Try Firebase first
+  try {
+    const snap = await getDoc(doc(db,'pins',name));
+    if (!snap.exists()) {
+      // First login — save to both Firebase and localStorage
+      await setDoc(doc(db,'pins',name), {pin, createdAt:new Date().toISOString()});
+      localStorage.setItem(lsKey, pin);
+      return true;
+    }
+    const correct = snap.data().pin === pin;
+    if (correct) localStorage.setItem(lsKey, pin); // keep local in sync
+    return correct;
+  } catch(e) {
+    // Firebase unavailable — fall back to localStorage
+    const stored = localStorage.getItem(lsKey);
+    if (!stored) {
+      // First time, no Firebase — set locally
+      localStorage.setItem(lsKey, pin);
+      return true;
+    }
+    return stored === pin;
+  }
+}
+
+// ── ANNEX C ──
+function getAnnexCRow(top8groups) {
+  const key = [...top8groups].sort().join('');
+  return ANNEX_C[key] || null;
+}
+function getThirdFor(acSlot, preds) {
+  const top8 = (preds.thirdsRanking||[]).slice(0,8);
+  const ac = getAnnexCRow(top8);
+  if (!ac) return null;
+  const val = ac[acSlot];
+  return val ? (preds.groupPreds?.[val[1]]?.[2] || null) : null;
+}
+function resolveSlot(slot, preds) {
+  const gp = preds.groupPreds || {};
+  if (slot.type==='winner') return gp[slot.group]?.[0]||null;
+  if (slot.type==='runner') return gp[slot.group]?.[1]||null;
+  if (slot.type==='third_slot') return getThirdFor(slot.acSlot, preds);
+  return null;
+}
+function getSlotLabel(slot, preds) {
+  if (slot.type==='winner') return `W Grp ${slot.group}`;
+  if (slot.type==='runner') return `2nd Grp ${slot.group}`;
+  if (slot.type==='third_slot') {
+    const ac = getAnnexCRow((preds.thirdsRanking||[]).slice(0,8));
+    if (ac) { const v=ac[slot.acSlot]; return `3rd Grp ${v?v[1]:'?'}`; }
+    return `3rd (${slot.acSlot})`;
+  }
+  return 'TBD';
+}
+function getPrevRound(k) { return k==='r16'?'r32':k==='qf'?'r16':k==='sf'?'qf':'sf'; }
+
+// ── SCORING ENGINE ──
+function scorePlayer(preds) {
+  const bd = {groups:{items:[],total:0},knockout:{items:[],total:0},total:0};
+  if (!preds || !results.groups) return bd;
+  const ag = results.groups;
+  const qt = results.qualifyingThirds||[];
+  const aQ3 = new Set(qt.map(g=>ag[g]?.[2]).filter(Boolean));
+  const pQ3 = new Set((preds.thirdsRanking||[]).slice(0,8).map(g=>preds.groupPreds?.[g]?.[2]).filter(Boolean));
+
+  Object.keys(ag).forEach(g => {
+    const ac=ag[g], pr=preds.groupPreds?.[g];
+    if (!pr||!ac) return;
+    const aT2=new Set([ac[0],ac[1]]);
+    let gp=0, allOk=true;
+
+    [0,1].forEach(i=>{
+      const pt=pr[i],at=ac[i];
+      if(aT2.has(pt)){
+        bd.groups.items.push({label:`${TEAMS[pt]?.name||pt} qualifies (G${g})`,pts:PTS.QUALIFIES});gp+=PTS.QUALIFIES;
+        if(pt===at){bd.groups.items.push({label:`${TEAMS[pt]?.name||pt} exact ${i===0?'1st':'2nd'} (G${g})`,pts:PTS.EXACT_POSITION});gp+=PTS.EXACT_POSITION;}
+        else allOk=false;
+      } else allOk=false;
+    });
+
+    const p3=pr[2],a3=ac[2];
+    if(aQ3.has(p3)){
+      bd.groups.items.push({label:`${TEAMS[p3]?.name||p3} qualifies top-8 3rd (G${g})`,pts:PTS.QUALIFIES});gp+=PTS.QUALIFIES;
+      if(pQ3.has(p3)){bd.groups.items.push({label:`G${g} produces qualifying 3rd`,pts:PTS.THIRD_GROUP_ID});gp+=PTS.THIRD_GROUP_ID;}
+      if(p3===a3){bd.groups.items.push({label:`${TEAMS[p3]?.name||p3} exact 3rd (G${g})`,pts:PTS.EXACT_POSITION});gp+=PTS.EXACT_POSITION;}
+      else allOk=false;
+    } else if(aT2.has(p3)){
+      bd.groups.items.push({label:`${TEAMS[p3]?.name||p3} pred 3rd→top 2 (G${g})`,pts:PTS.QUALIFIES});gp+=PTS.QUALIFIES;allOk=false;
+    } else allOk=false;
+
+    const p4=pr[3],a4=ac[3];
+    if(p4===a4){bd.groups.items.push({label:`${TEAMS[p4]?.name||p4} exact 4th (G${g})`,pts:PTS.EXACT_POSITION});gp+=PTS.EXACT_POSITION;}
+    else allOk=false;
+
+    if(allOk){bd.groups.items.push({label:`Full group correct (G${g})`,pts:PTS.FULL_GROUP});gp+=PTS.FULL_GROUP;}
+    bd.groups.total+=gp;
+  });
+
+  const tier=preds.bracketTier||'pre';
+  const tp=PTS.KO[tier]||PTS.KO.pre;
+  [['r32','r32'],['r16','r16'],['qf','qf'],['sf','sf'],['final','final']].forEach(([rk,pk])=>{
+    const pts=tp[pk]; if(!pts) return;
+    const ar=results.ko?.[rk]||{}, pr=preds.koPicks?.[rk]||{};
+    Object.entries(ar).forEach(([mid,aw])=>{
+      if(pr[mid]===aw){bd.knockout.items.push({label:`${rk.toUpperCase()} ${mid}: ${TEAMS[aw]?.name||aw}`,pts});bd.knockout.total+=pts;}
+    });
+  });
+  bd.total=bd.groups.total+bd.knockout.total;
+  return bd;
+}
+
+function recomputeAllScores() {
+  allScores = FAMILY_MEMBERS.map(fm => {
+    const preds = allPredictions[fm.name]||null;
+    return {...fm, breakdown:scorePlayer(preds), hasPreds:!!preds};
+  }).sort((a,b)=>b.breakdown.total-a.breakdown.total);
+}
+
+// ── DRAG (groups) ──
+let dragId=null, dragGroup=null;
+function onDragStart(e){dragId=e.currentTarget.dataset.id;dragGroup=e.currentTarget.dataset.group;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function onDragEnd(){document.querySelectorAll('.team-card').forEach(c=>c.classList.remove('dragging'));}
+function onDragOver(e){e.preventDefault();}
+function onDrop(e){
+  e.preventDefault();
+  const tid=e.currentTarget.dataset.id,tg=e.currentTarget.dataset.group;
+  if(!tid||dragId===tid||dragGroup!==tg) return;
+  const o=myPreds.groupPreds[dragGroup],fi=o.indexOf(dragId),ti=o.indexOf(tid);
+  o.splice(fi,1);o.splice(ti,0,dragId);
+  rerenderGroup(dragGroup);
+}
+window.onDragStart=onDragStart;window.onDragEnd=onDragEnd;window.onDragOver=onDragOver;window.onDrop=onDrop;
+
+// Touch drag (groups)
+let tId=null,tGrp=null,tClone=null,tSX=0,tSY=0,tRect=null;
+function onTouchStart(e){
+  const c=e.currentTarget;tId=c.dataset.id;tGrp=c.dataset.group;tRect=c.getBoundingClientRect();
+  tSX=e.touches[0].clientX;tSY=e.touches[0].clientY;
+  tClone=c.cloneNode(true);
+  Object.assign(tClone.style,{position:'fixed',zIndex:'999',opacity:'0.85',pointerEvents:'none',
+    width:tRect.width+'px',height:tRect.height+'px',left:tRect.left+'px',top:tRect.top+'px',
+    borderRadius:'12px',boxShadow:'0 12px 40px rgba(0,0,0,0.5)',transition:'none',margin:'0'});
+  document.body.appendChild(tClone);c.style.opacity='0.25';
+}
+function onTouchMove(e){
+  e.preventDefault();if(!tClone)return;
+  const dx=e.touches[0].clientX-tSX,dy=e.touches[0].clientY-tSY;
+  tClone.style.left=(tRect.left+dx)+'px';tClone.style.top=(tRect.top+dy)+'px';
+}
+function onTouchEnd(e){
+  if(!tClone)return;
+  document.body.removeChild(tClone);tClone=null;
+  const orig=document.getElementById('card-'+tId);if(orig)orig.style.opacity='';
+  const t=e.changedTouches[0];
+  const els=document.elementsFromPoint(t.clientX,t.clientY);
+  const target=els.find(el=>el.classList.contains('team-card')&&el.dataset.id!==tId&&el.dataset.group===tGrp);
+  if(!target){tId=null;return;}
+  const o=myPreds.groupPreds[tGrp],fi=o.indexOf(tId),ti=o.indexOf(target.dataset.id);
+  o.splice(fi,1);o.splice(ti,0,tId);tId=null;
+  rerenderGroup(tGrp);
+}
+window.onTouchStart=onTouchStart;window.onTouchMove=onTouchMove;window.onTouchEnd=onTouchEnd;
+
+// Thirds drag
+let trDragG=null;
+function trDragStart(e){trDragG=e.currentTarget.dataset.group;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function trDragEnd(){document.querySelectorAll('.third-rank-card').forEach(c=>c.classList.remove('dragging'));}
+function trDragOver(e){e.preventDefault();}
+function trDrop(e){
+  e.preventDefault();
+  const tg=e.currentTarget.dataset.group;
+  if(!tg||trDragG===tg)return;
+  const fi=myPreds.thirdsRanking.indexOf(trDragG),ti=myPreds.thirdsRanking.indexOf(tg);
+  myPreds.thirdsRanking.splice(fi,1);myPreds.thirdsRanking.splice(ti,0,trDragG);
+  rerender();
+}
+window.trDragStart=trDragStart;window.trDragEnd=trDragEnd;window.trDragOver=trDragOver;window.trDrop=trDrop;
+
+let trTId=null,trTClone=null,trTSX=0,trTSY=0,trTRect=null;
+function trTouchStart(e){
+  const c=e.currentTarget;trTId=c.dataset.group;trTRect=c.getBoundingClientRect();
+  trTSX=e.touches[0].clientX;trTSY=e.touches[0].clientY;
+  trTClone=c.cloneNode(true);
+  Object.assign(trTClone.style,{position:'fixed',zIndex:'999',opacity:'0.85',pointerEvents:'none',
+    width:trTRect.width+'px',height:trTRect.height+'px',left:trTRect.left+'px',top:trTRect.top+'px',borderRadius:'12px',margin:'0'});
+  document.body.appendChild(trTClone);c.style.opacity='0.25';
+}
+function trTouchMove(e){
+  e.preventDefault();if(!trTClone)return;
+  const dx=e.touches[0].clientX-trTSX,dy=e.touches[0].clientY-trTSY;
+  trTClone.style.left=(trTRect.left+dx)+'px';trTClone.style.top=(trTRect.top+dy)+'px';
+}
+function trTouchEnd(e){
+  if(!trTClone)return;
+  document.body.removeChild(trTClone);trTClone=null;
+  const orig=document.getElementById('trcard-'+trTId);if(orig)orig.style.opacity='';
+  const t=e.changedTouches[0];
+  const els=document.elementsFromPoint(t.clientX,t.clientY);
+  const target=els.find(el=>el.classList.contains('third-rank-card')&&el.dataset.group!==trTId);
+  if(!target){trTId=null;return;}
+  const fi=myPreds.thirdsRanking.indexOf(trTId),ti=myPreds.thirdsRanking.indexOf(target.dataset.group);
+  myPreds.thirdsRanking.splice(fi,1);myPreds.thirdsRanking.splice(ti,0,trTId);
+  trTId=null;rerender();
+}
+window.trTouchStart=trTouchStart;window.trTouchMove=trTouchMove;window.trTouchEnd=trTouchEnd;
+
+// ── KNOCKOUT PICKS ──
+let pendingKoPick=null;
+function pickWinner(matchId,roundKey,teamId){
+  const existing=myPreds.koPicks[roundKey]?.[matchId];
+  if(existing===teamId){
+    delete myPreds.koPicks[roundKey][matchId];
+    clearDownstream(matchId,roundKey,teamId);
+    rerender();return;
+  }
+  if(existing&&existing!==teamId){
+    pendingKoPick={matchId,roundKey,teamId,old:existing};
+    showWarnModal('Change Pick?','Changing this pick will clear downstream predictions.',()=>{
+      if(!myPreds.koPicks[pendingKoPick.roundKey])myPreds.koPicks[pendingKoPick.roundKey]={};
+      myPreds.koPicks[pendingKoPick.roundKey][pendingKoPick.matchId]=pendingKoPick.teamId;
+      clearDownstream(pendingKoPick.matchId,pendingKoPick.roundKey,pendingKoPick.old);
+      pendingKoPick=null;rerender();
+    });
+    return;
+  }
+  if(!myPreds.koPicks[roundKey])myPreds.koPicks[roundKey]={};
+  myPreds.koPicks[roundKey][matchId]=teamId;
+  rerender();showToast('✓ Pick saved');
+}
+window.pickWinner=pickWinner;
+
+function clearDownstream(matchId,roundKey,oldTeam){
+  const allM=[...R32_DEFS,...R16_DEFS,...QF_DEFS,...SF_DEFS,FINAL_DEF];
+  allM.forEach(m=>{
+    if(m.from&&m.from.includes(matchId)){
+      const rk=m.id.startsWith('R16')?'r16':m.id.startsWith('QF')?'qf':m.id.startsWith('SF')?'sf':m.id==='FINAL'?'final':'r32';
+      if(!oldTeam||myPreds.koPicks[rk]?.[m.id]===oldTeam){
+        const prev=myPreds.koPicks[rk]?.[m.id];
+        if(myPreds.koPicks[rk])delete myPreds.koPicks[rk][m.id];
+        if(prev)clearDownstream(m.id,rk,prev);
+      }
+    }
+  });
+}
+
+function showWarnModal(title,body,onConfirm){
+  const ov=document.createElement('div');ov.className='modal-overlay';
+  ov.innerHTML=`<div class="modal-sheet">
+    <div class="modal-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <div><div class="modal-title">${title}</div><div class="modal-sub">${body}</div></div>
+      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+    </div>
+    <div class="modal-btn-row">
+      <button class="modal-btn secondary" onclick="this.closest('.modal-overlay').remove()">Keep Current</button>
+      <button class="modal-btn primary" id="confirmBtn">Change It</button>
+    </div>
+  </div>`;
+  ov.querySelector('#confirmBtn').onclick=()=>{ov.remove();onConfirm();};
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
+  document.body.appendChild(ov);
+}
+
+// ── NAV ──
+function setTab(t){currentTab=t;rerender();window.scrollTo({top:0,behavior:'smooth'});}
+function setBracketView(v){bracketView=v;rerender();window.scrollTo({top:0,behavior:'smooth'});}
+function setBracketQuad(q){bracketQuad=q;rerender();}
+function setGroupFilter(f){
+  groupFilter=f;
+  if(f==='thirds'){rerenderGroupsContainer();}
+  else{rerenderGroupsContainer();}
+}
+window.setTab=setTab;window.setBracketView=setBracketView;window.setBracketQuad=setBracketQuad;window.setGroupFilter=setGroupFilter;
+function scrollFilter(dir){const el=document.getElementById('groupFilter');if(el)el.scrollBy({left:dir*140,behavior:'smooth'});}
+window.scrollFilter=scrollFilter;
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  if(!t)return;t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+window.showToast=showToast;
+
+// ── LOGIN ──
+async function loginAs(name){
+  const fm=FAMILY_MEMBERS.find(f=>f.name===name);
+  currentUser={...fm};
+  localStorage.setItem('wc2026_user',name);
+  // Load predictions — graceful fallback if Firebase unavailable
+  try {
+    const snap = await getDoc(doc(db,'predictions',name));
+    if(snap && snap.exists()){
+      const d=snap.data();
+      myPreds={
+        groupPreds:d.groupPreds||JSON.parse(JSON.stringify(GROUPS_DEFAULT)),
+        thirdsRanking:d.thirdsRanking||['A','B','C','D','E','F','G','H','I','J','K','L'],
+        koPicks:d.koPicks||{},
+        bracketTier:d.bracketTier||'pre',
+      };
+    } else {
+      myPreds={groupPreds:JSON.parse(JSON.stringify(GROUPS_DEFAULT)),thirdsRanking:['A','B','C','D','E','F','G','H','I','J','K','L'],koPicks:{},bracketTier:'pre'};
+    }
+  } catch(e) {
+    // Firebase offline — start fresh, will sync when connected
+    myPreds={groupPreds:JSON.parse(JSON.stringify(GROUPS_DEFAULT)),thirdsRanking:['A','B','C','D','E','F','G','H','I','J','K','L'],koPicks:{},bracketTier:'pre'};
+  }
+  try { await loadAllPredictions(); } catch(e) {}
+  try { listenToResults(); } catch(e) {}
+  currentTab='home';
+  rerender();
+}
+
+function showPinModal(name,pinLength){
+  let entered='';
+  const ov=document.createElement('div');ov.className='modal-overlay';
+  ov.innerHTML=`<div class="modal-sheet">
+    <div class="modal-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <div><div class="modal-title">Hi, ${name}!</div><div class="modal-sub">${pinLength}-digit PIN · First time? You'll set it now.</div></div>
+      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="pin-display" id="pinDots">${Array(pinLength).fill('<div class="pin-dot"></div>').join('')}</div>
+      <div class="pin-error" id="pinErr"></div>
+      <div class="pin-pad">
+        ${[1,2,3,4,5,6,7,8,9,'','0','⌫'].map(k=>`<div class="pin-key" ${k!==''?`data-k="${k}"`:''} style="${k===''?'visibility:hidden':''}">${k}</div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+  ov.querySelectorAll('[data-k]').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      const k=btn.dataset.k;
+      if(k==='⌫')entered=entered.slice(0,-1);
+      else if(entered.length<pinLength)entered+=k;
+      ov.querySelectorAll('.pin-dot').forEach((d,i)=>d.classList.toggle('filled',i<entered.length));
+      if(entered.length===pinLength){
+        const ok=await checkPin(name,entered);
+        if(ok){ov.remove();await loginAs(name);}
+        else{ov.querySelector('#pinErr').textContent='Incorrect PIN';entered='';ov.querySelectorAll('.pin-dot').forEach(d=>d.classList.remove('filled'));}
+      } else {ov.querySelector('#pinErr').textContent='';}
+    });
+  });
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
+  document.body.appendChild(ov);
+}
+
+function showSwitchUser(){
+  const ov=document.createElement('div');ov.className='modal-overlay';
+  ov.innerHTML=`<div class="modal-sheet">
+    <div class="modal-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <div><div class="modal-title">Switch Player</div><div class="modal-sub">Select a family member</div></div>
+      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="name-grid">
+        ${FAMILY_MEMBERS.map(fm=>`<div class="name-chip ${fm.isAdmin?'admin-chip':''} ${fm.name===currentUser?.name?'active':''}" data-sn="${fm.name}" data-pl="${fm.pinLength}">${fm.name}${fm.isAdmin?' ⚙':''}</div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+  ov.querySelectorAll('[data-sn]').forEach(btn=>{
+    btn.addEventListener('click',()=>{ov.remove();showPinModal(btn.dataset.sn,parseInt(btn.dataset.pl));});
+  });
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
+  document.body.appendChild(ov);
+}
+window.showSwitchUser=showSwitchUser;
+
+function adminToggleLock(){
+  results.predictionsLocked=!results.predictionsLocked;
+  saveResults();showToast(results.predictionsLocked?'🔒 Predictions locked!':'🔓 Predictions unlocked!');rerender();
+}
+window.adminToggleLock=adminToggleLock;
+
+
+// ═══════════════════════════════════════════════
+// PART 5: RENDER FUNCTIONS
+// ═══════════════════════════════════════════════
+
+function lum(c){if(!c||c.length<7)return 0.5;const r=parseInt(c.slice(1,3),16)/255,g=parseInt(c.slice(3,5),16)/255,b=parseInt(c.slice(5,7),16)/255;return 0.299*r+0.587*g+0.114*b;}
+
+function rerender(){
+  const app=document.getElementById('app');
+  if(!app)return;
+  if(!currentUser){app.innerHTML=renderLogin();bindLoginEvents();return;}
+  app.innerHTML=renderShell();
+  bindPickEvents();
+}
+
+function renderShell(){
+  return `
+    ${renderHeader()}
+    ${renderNavTabs()}
+    <div class="screen">${renderPage()}</div>
+    ${renderBottomNav()}`;
+}
+
+function renderHeader(){
+  const u=currentUser;
+  return `<div class="header">
+    <div class="header-logo">WC · 2026</div>
+    <div class="header-right">
+      ${u.isAdmin?'<div class="admin-badge">ADMIN</div>':''}
+      <div class="user-badge" onclick="showSwitchUser()">
+        <div class="user-avatar" style="background:${u.color};">${u.name.slice(0,2).toUpperCase()}</div>
+        <div class="user-name">${u.name}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderNavTabs(){
+  return `<div class="nav-tabs">
+    ${[['home','Home'],['groups','Groups'],['bracket','Bracket'],['scores','Scores'],['standings','Standings']].map(([t,l])=>`<div class="nav-tab ${currentTab===t?'active':''}" onclick="setTab('${t}')">${l}</div>`).join('')}
+  </div>`;
+}
+
+function renderBottomNav(){
+  return `<div class="bottom-nav">
+    ${[['home','🏠','Home'],['groups','⚽','Groups'],['bracket','🗂','Bracket'],['standings','🏆','Standings']].map(([t,i,l])=>`<div class="bottom-nav-item ${currentTab===t?'active':''}" onclick="setTab('${t}')"><div class="bnav-icon">${i}</div><div class="bnav-label">${l}</div></div>`).join('')}
+  </div>`;
+}
+
+function renderPage(){
+  switch(currentTab){
+    case 'groups':   return renderGroupsPage();
+    case 'bracket':  return renderBracketPage();
+    case 'scores':   return renderScoresPage();
+    case 'standings':return renderStandingsPage();
+    default:         return renderHome();
+  }
+}
+
+// ── HOME ──
+function renderHome(){
+  const locked=results.predictionsLocked;
+  return `<div class="home-hero">
+    <div class="hero-trophy">🏆</div>
+    <div class="hero-eyebrow">FIFA World Cup</div>
+    <div class="hero-title">USA · Canada · Mexico</div>
+    <div class="status-pill"><div class="status-dot"></div><div class="status-text">${locked?'Predictions Locked':'Predictions Open'}</div></div>
+  </div>
+  ${currentUser.isAdmin?`<div style="padding:14px 14px 0;"><div class="admin-panel">
+    <div class="admin-title">⚙ Admin Controls</div>
+    <div class="admin-grid">
+      <div class="admin-btn" onclick="adminToggleLock()">${locked?'🔓 Unlock':'🔒 Lock'} Predictions</div>
+      <div class="admin-btn" onclick="setTab('scores')">Enter Results</div>
+    </div>
+  </div></div>`:''}
+  <div style="padding:10px 14px 0;display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;">Your Predictions</div>
+    <div id="lastUpdatedEl" style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1px;color:var(--text-dim);">${results.lastUpdated ? 'Updated ' + new Date(results.lastUpdated).toLocaleTimeString() : 'Fetching results...'}</div>
+  </div>
+  <div class="phase-grid">
+    <div class="phase-card" onclick="setTab('groups')"><div class="phase-icon">⚽</div><div class="phase-name">Groups</div><div class="phase-meta">12 groups · 48 teams</div><div class="phase-status ${locked?'locked-s':'open'}">${locked?'Locked':'Open'}</div></div>
+    <div class="phase-card" onclick="setTab('bracket')"><div class="phase-icon">🗂</div><div class="phase-name">Bracket</div><div class="phase-meta">R32 through Final</div><div class="phase-status ${locked?'locked-s':'open'}">${locked?'Locked':'Open'}</div></div>
+    <div class="phase-card" onclick="setTab('standings')"><div class="phase-icon">🏆</div><div class="phase-name">Standings</div><div class="phase-meta">Family leaderboard</div><div class="phase-status open">Live</div></div>
+    <div class="phase-card" onclick="setTab('scores')"><div class="phase-icon">📊</div><div class="phase-name">My Score</div><div class="phase-meta">Point breakdown</div><div class="phase-status open">View</div></div>
+  </div>`;
+}
+
+// ── GROUPS ──
+function renderGroupsPage(){
+  const locked=results.predictionsLocked;
+  return `<div class="page-hero">
+    <div><div class="page-hero-eyebrow">Group Stage</div><div class="page-hero-title">${groupFilter==='thirds'?'3rd Place Rank':'Pick Your Groups'}</div><div class="page-hero-sub">Drag to reorder${locked?' · Locked':''}</div></div>
+    ${!locked?`<button class="action-btn" onclick="savePredictions()">Save</button>`:''}
+  </div>
+  <div class="filter-wrap">
+    <div class="filter-arrow left" onclick="scrollFilter(-1)">‹</div>
+    <div class="group-filter" id="groupFilter">
+      <div class="filter-btn ${groupFilter==='all'?'active':''}" onclick="setGroupFilter('all')">All</div>
+      ${'ABCDEFGHIJKL'.split('').map(g=>`<div class="filter-btn ${groupFilter===g?'active':''}" onclick="setGroupFilter('${g}')">Group ${g}</div>`).join('')}
+      <div class="filter-btn ${groupFilter==='thirds'?'active':''}" onclick="setGroupFilter('thirds')">🥉 3rd Place</div>
+    </div>
+    <div class="filter-arrow right" onclick="scrollFilter(1)">›</div>
+  </div>
+  <div class="groups-container" id="groupsContainer">${groupFilter==='thirds'?renderThirdsRanking():renderAllGroups()}</div>`;
+}
+
+function renderAllGroups(){
+  return Object.keys(GROUPS_DEFAULT).map(g=>{
+    const show=groupFilter==='all'||groupFilter===g;
+    const order=myPreds.groupPreds[g];
+    return `<div class="group-card" id="group-${g}" ${show?'':'style="display:none"'}>
+      <div class="group-header">
+        <div class="group-label">Group ${g}</div>
+        <div class="group-positions"><span class="pos-badge pos-1st">1st</span><span class="pos-badge pos-2nd">2nd</span><span class="pos-badge pos-3rd">3rd</span><span class="pos-badge pos-4th">4th</span></div>
+      </div>
+      <div class="team-list" id="list-${g}" data-group="${g}">
+        ${order.map((id,i)=>renderTeamCard(id,i,g)).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTeamCard(id,pos,g){
+  const t=TEAMS[id];
+  const pcs=['rgba(201,168,76,0.85)','rgba(41,128,185,0.85)','rgba(39,174,96,0.85)','rgba(80,80,80,0.6)'];
+  const pls=['1ST','2ND','3RD','4TH'];
+  const dark=lum(t.c)<0.45||t.c==='#1a1a1a';
+  const nc=dark?'rgba(255,255,255,0.95)':'rgba(0,0,0,0.85)';
+  const mc=dark?'rgba(255,255,255,0.5)':'rgba(0,0,0,0.4)';
+  return `<div class="team-card" id="card-${id}" data-id="${id}" data-group="${g}" draggable="true"
+    style="background:linear-gradient(135deg,${t.c}ee,${t.c}99);"
+    ondragstart="onDragStart(event)" ondragend="onDragEnd()" ondragover="onDragOver(event)" ondrop="onDrop(event)"
+    ontouchstart="onTouchStart(event)" ontouchmove="onTouchMove(event)" ontouchend="onTouchEnd(event)">
+    <div class="card-flag-panel"><img class="card-flag-img" src="${furl(id)}" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="card-color-strip" style="background:${t.c};opacity:0.6;"></div>
+    <div class="card-body">
+      <div class="card-handle">⠿</div>
+      <div class="card-info">
+        <div class="team-name" style="color:${nc}">${t.name}</div>
+        <div class="team-sub"><span class="team-ranking" style="color:${mc}">FIFA #${t.r}</span>${t.w>0?`<span style="font-size:10px">${'⭐'.repeat(t.w)}</span>`:''}</div>
+      </div>
+      <div class="card-pos" style="background:${pcs[pos]};color:white;">${pls[pos]}</div>
+    </div>
+  </div>`;
+}
+
+function rerenderGroup(g){
+  const list=document.getElementById(`list-${g}`);
+  if(list)list.innerHTML=myPreds.groupPreds[g].map((id,i)=>renderTeamCard(id,i,g)).join('');
+}
+
+function rerenderGroupsContainer(){
+  const c=document.getElementById('groupsContainer');
+  if(c)c.innerHTML=groupFilter==='thirds'?renderThirdsRanking():renderAllGroups();
+}
+
+function renderThirdsRanking(){
+  return `<div class="info-hint"><strong>Drag to rank</strong> the 12 third-place teams. Your <strong>top 8</strong> advance via Annex C.</div>
+  <div id="thirdsList" style="display:flex;flex-direction:column;gap:6px;">
+    ${myPreds.thirdsRanking.map((g,idx)=>{
+      const id=myPreds.groupPreds[g]?.[2]||GROUPS_DEFAULT[g][2];
+      const t=TEAMS[id];const q=idx<8;
+      const dark=lum(t.c)<0.45;const nc=dark?'rgba(255,255,255,0.92)':'rgba(0,0,0,0.85)';const mc=dark?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.4)';
+      return `<div class="third-rank-card" id="trcard-${g}" data-group="${g}" draggable="true"
+        style="background:linear-gradient(135deg,${t.c}ee,${t.c}aa);"
+        ondragstart="trDragStart(event)" ondragend="trDragEnd()" ondragover="trDragOver(event)" ondrop="trDrop(event)"
+        ontouchstart="trTouchStart(event)" ontouchmove="trTouchMove(event)" ontouchend="trTouchEnd(event)">
+        <div class="trcard-rank ${q?'q':'nq'}">${idx+1}</div>
+        <div class="trcard-flag"><img src="${furl(id)}" loading="lazy" onerror="this.style.display='none'"></div>
+        <div class="trcard-strip" style="background:${t.c};opacity:0.5;"></div>
+        <div class="trcard-body">
+          <div class="trcard-handle">⠿</div>
+          <div class="trcard-info"><div class="trcard-name" style="color:${nc}">${t.name}</div><div class="trcard-meta" style="color:${mc}">Group ${g} · 3rd · #${t.r}</div></div>
+          <div class="qualify-badge ${q?'yes':'no'}">${q?'Advances':'Out'}</div>
+        </div>
+      </div>${idx===7?'<div class="divider-8"></div>':''}`;
+    }).join('')}
+  </div>`;
+}
+
+// ── BRACKET ──
+function renderBracketPage(){
+  const locked=results.predictionsLocked;
+  const tabs=[{v:'thirds',l:'🥉 Rank'},{v:'r32',l:'R32'},{v:'r16',l:'R16'},{v:'qf',l:'QF'},{v:'sf',l:'SF'},{v:'final',l:'🏆 Final'}];
+  return `<div class="page-hero">
+    <div><div class="page-hero-eyebrow">Knockout</div><div class="page-hero-title">Your Bracket</div><div class="page-hero-sub">${locked?'Locked':'Pre-tournament · Max pts'}</div></div>
+    ${!locked?`<button class="action-btn" onclick="savePredictions()">Save</button>`:''}
+  </div>
+  <div class="round-tabs">${tabs.map(t=>`<div class="round-tab ${bracketView===t.v?'active':''}" onclick="setBracketView('${t.v}')">${t.l}</div>`).join('')}</div>
+  <div class="content">
+    ${bracketView==='thirds'?renderThirdsRanking()
+    :bracketView==='r32'?renderR32View()
+    :bracketView==='r16'?renderKORound(R16_DEFS,'r16','Round of 16')
+    :bracketView==='qf'?renderKORound(QF_DEFS,'qf','Quarter-Finals')
+    :bracketView==='sf'?renderKORound(SF_DEFS,'sf','Semi-Finals')
+    :renderFinalView()}
+  </div>`;
+}
+
+function renderR32View(){
+  const qm=R32_DEFS.filter(m=>m.quad===bracketQuad);
+  const r16p=R16_DEFS.filter(m=>m.quad===bracketQuad);
+  let html=`<div class="quad-grid">`;
+  for(let q=1;q<=4;q++){
+    const dm=R32_DEFS.filter(m=>m.quad===q);
+    const done=dm.filter(m=>myPreds.koPicks?.r32?.[m.id]).length;
+    html+=`<div class="quad-btn ${bracketQuad===q?'active':''} ${done===4?'done':''}" onclick="setBracketQuad(${q})">
+      <div class="quad-num">PATH ${q}</div><div class="quad-label">→${q<=2?'SF1':'SF2'}</div>
+      <div class="quad-prog ${done===4?'done':done>0?'partial':''}">${done===4?'✓ Done':`${done}/4`}</div>
+    </div>`;
+  }
+  html+=`</div><div class="section-lbl">Round of 32 — Path ${bracketQuad}</div>`;
+  const p1=qm.slice(0,2),p2=qm.slice(2,4);
+  p1.forEach(m=>{html+=renderVCard(m,'r32');});
+  if(r16p[0])html+=renderR16Preview(r16p[0],p1);
+  html+=`<div class="section-lbl" style="margin-top:18px;">Path ${bracketQuad} (cont.)</div>`;
+  p2.forEach(m=>{html+=renderVCard(m,'r32');});
+  if(r16p[1])html+=renderR16Preview(r16p[1],p2);
+  return html;
+}
+
+function renderVCard(match,rk){
+  const tId=resolveSlot(match.top,myPreds),bId=resolveSlot(match.bot,myPreds);
+  const tT=tId?TEAMS[tId]:null,bT=bId?TEAMS[bId]:null;
+  const w=myPreds.koPicks?.[rk]?.[match.id];
+  return `<div class="versus-card">
+    <div class="versus-header"><div class="versus-match-id">${match.id}</div><div class="pts-badge">${match.pts.toLocaleString()} pts</div></div>
+    <div class="versus-body">
+      ${renderVSide(match.id,rk,tId,tT,getSlotLabel(match.top,myPreds),w)}
+      <div class="versus-divider"></div>
+      ${renderVSide(match.id,rk,bId,bT,getSlotLabel(match.bot,myPreds),w)}
+    </div>
+  </div>`;
+}
+
+function renderVSide(mid,rk,tid,team,label,winner){
+  const p=winner===tid&&tid!==null;
+  const tbd=!tid;
+  return `<div class="versus-side ${p?'picked':''} ${tbd?'tbd':''}" ${tid&&!results.predictionsLocked?`onclick="pickWinner('${mid}','${rk}','${tid}')"`:''}
+    >${team
+      ?`<div class="vs-flag"><img src="${furl(tid)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"></div><div class="vs-name">${team.name}</div><div class="vs-sub">${label}</div><div class="pick-ind">${p?'✓':''}</div>`
+      :`<div class="vs-flag-ph">?</div><div class="vs-name" style="color:var(--text-dim);font-size:11px;">${label}</div><div class="pick-ind"></div>`}
+  </div>`;
+}
+
+function renderR16Preview(r16m,r32pair){
+  const t1=myPreds.koPicks?.r32?.[r32pair[0].id]||null;
+  const t2=myPreds.koPicks?.r32?.[r32pair[1].id]||null;
+  const w=myPreds.koPicks?.r16?.[r16m.id];
+  return `<div style="display:flex;align-items:center;gap:8px;margin:8px 0 6px;">
+    <div style="flex:1;height:1px;background:rgba(41,128,185,0.3);"></div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;color:#5DADE2;">→ R16</div>
+    <div style="flex:1;height:1px;background:rgba(41,128,185,0.3);"></div>
+  </div>
+  <div class="versus-card" style="border-color:rgba(41,128,185,0.2);">
+    <div class="versus-header" style="background:rgba(41,128,185,0.05);">
+      <div class="versus-match-id" style="color:#5DADE2;">${r16m.id}</div>
+      <div class="pts-badge" style="background:rgba(41,128,185,0.12);color:#5DADE2;">${r16m.pts.toLocaleString()} pts</div>
+    </div>
+    <div class="versus-body">
+      ${renderFeedSide(r16m.id,'r16',t1,t1?TEAMS[t1]:null,r32pair[0].id,w)}
+      <div class="versus-divider"></div>
+      ${renderFeedSide(r16m.id,'r16',t2,t2?TEAMS[t2]:null,r32pair[1].id,w)}
+    </div>
+  </div>`;
+}
+
+function renderFeedSide(mid,rk,tid,team,fromId,winner){
+  const p=winner===tid&&tid!==null;
+  return `<div class="versus-side ${p?'picked':''} ${!tid?'tbd':''}" ${tid&&!results.predictionsLocked?`onclick="pickWinner('${mid}','${rk}','${tid}')"`:''}
+    >${team
+      ?`<div class="vs-flag"><img src="${furl(tid)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></div><div class="vs-name">${team.name}</div><div class="vs-sub">W ${fromId}</div><div class="pick-ind">${p?'✓':''}</div>`
+      :`<div class="vs-flag-ph">?</div><div class="vs-name" style="color:var(--text-dim);font-size:11px;">Pick W ${fromId}</div><div class="pick-ind"></div>`}
+  </div>`;
+}
+
+function renderKORound(defs,rk,title){
+  const prk=getPrevRound(rk);
+  let html=`<div class="info-hint"><strong>${title}</strong> · Tap a team to pick the winner.</div>`;
+  defs.forEach((m,i)=>{
+    const t1=myPreds.koPicks?.[prk]?.[m.from[0]]||null;
+    const t2=myPreds.koPicks?.[prk]?.[m.from[1]]||null;
+    const w=myPreds.koPicks?.[rk]?.[m.id];
+    html+=`<div class="section-lbl">${title} Match ${i+1}</div>
+    <div class="versus-card">
+      <div class="versus-header"><div class="versus-match-id">${m.id}</div><div class="pts-badge">${m.pts.toLocaleString()} pts</div></div>
+      <div class="versus-body">
+        ${renderFeedSide(m.id,rk,t1,t1?TEAMS[t1]:null,m.from[0],w)}
+        <div class="versus-divider"></div>
+        ${renderFeedSide(m.id,rk,t2,t2?TEAMS[t2]:null,m.from[1],w)}
+      </div>
+    </div>`;
+  });
+  return html;
+}
+
+function renderFinalView(){
+  const t1=myPreds.koPicks?.sf?.SF1||null,t2=myPreds.koPicks?.sf?.SF2||null;
+  const w=myPreds.koPicks?.final?.FINAL;const champ=w?TEAMS[w]:null;
+  return `<div class="versus-card" style="border:2px solid rgba(201,168,76,0.4);">
+    <div class="versus-header" style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));text-align:center;display:flex;flex-direction:column;align-items:center;padding:14px;">
+      <div style="font-size:32px;margin-bottom:4px;">🏆</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:4px;background:linear-gradient(135deg,#E8C96A,#C9A84C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">The Final · 27,000 pts</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;color:var(--text-dim);margin-top:2px;">July 19 · MetLife Stadium</div>
+    </div>
+    <div class="versus-body">
+      ${renderFeedSide('FINAL','final',t1,t1?TEAMS[t1]:null,'SF1',w)}
+      <div class="versus-divider"></div>
+      ${renderFeedSide('FINAL','final',t2,t2?TEAMS[t2]:null,'SF2',w)}
+    </div>
+  </div>
+  ${champ?`<div style="text-align:center;padding:20px 16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-top:10px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">🥇 Your Champion</div>
+    <div style="width:64px;height:42px;border-radius:6px;overflow:hidden;margin:0 auto 8px;"><img src="${furl(w)}" style="width:100%;height:100%;object-fit:cover;"></div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;background:linear-gradient(135deg,#E8C96A,#C9A84C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${champ.name}</div>
+  </div>`:''}`;
+}
+
+// ── SCORES ──
+function renderScoresPage(){
+  const bd=scorePlayer(myPreds);
+  if(!results.groups){
+    return `<div class="content" style="text-align:center;padding:48px 16px;">
+      <div style="font-size:48px;margin-bottom:12px;">⏳</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:8px;">Waiting for Results</div>
+      <div style="font-size:13px;color:var(--text-dim);">Scores appear once the admin enters group results.</div>
+    </div>`;
+  }
+  return `<div class="page-hero"><div>
+    <div class="page-hero-eyebrow">Your Score</div>
+    <div class="page-hero-title">${currentUser.name}</div>
+    <div class="page-hero-sub">${bd.total.toLocaleString()} pts</div>
+  </div><div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--gold-light);">${bd.total.toLocaleString()}</div></div>
+  <div class="content">
+    ${currentUser.isAdmin?`<div class="admin-panel"><div class="admin-title">⚙ Enter Results</div>
+    <div class="admin-grid">
+      <div class="admin-btn" onclick="showToast('Result entry coming in Phase 6!')">Groups</div>
+      <div class="admin-btn" onclick="showToast('Result entry coming in Phase 6!')">R32</div>
+      <div class="admin-btn" onclick="showToast('Result entry coming in Phase 6!')">R16</div>
+      <div class="admin-btn" onclick="showToast('Result entry coming in Phase 6!')">QF</div>
+      <div class="admin-btn" onclick="showToast('Result entry coming in Phase 6!')">SF</div>
+      <div class="admin-btn" onclick="showToast('Result entry coming in Phase 6!')">Final</div>
+    </div></div>`:''}
+    ${renderBreakdownPanel(bd,currentUser.name)}
+  </div>`;
+}
+
+function renderBreakdownPanel(bd,name){
+  const tierL={pre:'Pre-Tournament',groups:'After Groups',after_r32:'After R32',after_r16:'After R16',after_qf:'After QF',after_sf:'After SF'}[myPreds.bracketTier]||'Pre-Tournament';
+  const byGrp={};
+  bd.groups.items.forEach(item=>{const m=item.label.match(/G([A-L])\)/);const g=m?m[1]:'?';if(!byGrp[g])byGrp[g]=[];byGrp[g].push(item);});
+  return `<div class="breakdown-panel">
+    <div style="padding:14px 16px;background:rgba(201,168,76,0.06);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;">${tierL}</div><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-top:2px;">${name}</div></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold-light);">${bd.total.toLocaleString()}</div>
+    </div>
+    <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">Group Stage · ${bd.groups.total.toLocaleString()} pts</div>
+      ${Object.keys(byGrp).sort().map(g=>`<div style="margin-bottom:10px;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px;">Group ${g}</div>
+        ${byGrp[g].map(item=>`<div class="breakdown-row"><div style="font-size:12px;color:var(--text);flex:1;">${item.label}</div><div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--green);">+${item.pts.toLocaleString()}</div></div>`).join('')}
+      </div>`).join('')}
+    </div>
+    <div style="padding:12px 16px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;">Knockout · ${bd.knockout.total.toLocaleString()} pts</div>
+      ${bd.knockout.items.length===0
+        ?`<div style="font-size:12px;color:var(--text-dim);">No knockout picks correct yet.</div>`
+        :bd.knockout.items.map(item=>`<div class="breakdown-row"><div style="font-size:12px;color:var(--text);flex:1;">${item.label}</div><div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--green);">+${item.pts.toLocaleString()}</div></div>`).join('')}
+    </div>
+    <div style="padding:14px 16px;background:rgba(201,168,76,0.06);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;">Grand Total</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--gold-light);">${bd.total.toLocaleString()}</div>
+    </div>
+  </div>`;
+}
+
+// ── STANDINGS ──
+function renderStandingsPage(){
+  return `<div class="page-hero"><div><div class="page-hero-eyebrow">Family Standings</div><div class="page-hero-title">Leaderboard</div><div class="page-hero-sub">Tap a player for details</div></div></div>
+  <div class="content"><div class="lb-card">
+    ${allScores.length===0
+      ?`<div style="padding:32px;text-align:center;color:var(--text-dim);">Loading...</div>`
+      :allScores.map((p,i)=>{
+          const r=i+1,rc=r===1?'r1':r===2?'r2':r===3?'r3':'rn',isY=p.name===currentUser.name;
+          const tierL={pre:'Pre-Tournament',groups:'After Groups',after_r32:'After R32'}[p.bracketTier||'pre']||'Pre-Tournament';
+          return `<div class="lb-row ${isY?'you':''}" onclick="openPlayerModal('${p.name}')">
+            <div class="lb-rank ${rc}">${r}</div>
+            <div class="lb-av" style="background:${p.color};">${p.name.slice(0,2).toUpperCase()}</div>
+            <div class="lb-info"><div class="lb-name">${p.name}${isY?'<span class="you-tag">YOU</span>':''}</div><div class="lb-sub">${tierL} bracket</div></div>
+            <div><div class="lb-score">${p.breakdown.total.toLocaleString()}</div><div class="lb-score-sub">${p.breakdown.groups.total.toLocaleString()} + ${p.breakdown.knockout.total.toLocaleString()}</div></div>
+          </div>`;
+        }).join('')}
+  </div></div>`;
+}
+
+function openPlayerModal(name){
+  const player=allScores.find(p=>p.name===name);
+  if(!player)return;
+  const rank=allScores.findIndex(p=>p.name===name)+1;
+  const isY=name===currentUser.name;
+  const preds=allPredictions[name]||null;
+  const bd=preds?scorePlayer(preds):{groups:{items:[],total:0},knockout:{items:[],total:0},total:0};
+  const canSee=results.predictionsLocked||isY;
+  const ov=document.createElement('div');ov.className='modal-overlay';
+  ov.innerHTML=`<div class="modal-sheet">
+    <div class="modal-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <div><div class="modal-title">#${rank} ${name}${isY?' (You)':''}</div><div class="modal-sub">${player.breakdown.total.toLocaleString()} pts</div></div>
+      <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+    </div>
+    <div class="modal-body">${canSee&&results.groups?renderBreakdownPanel(bd,name):`<div style="text-align:center;padding:32px;">
+      <div style="font-size:48px;margin-bottom:12px;">${results.groups?'🔒':'⏳'}</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:8px;">${results.groups?'Still Open':'Waiting for Results'}</div>
+      <div style="font-size:13px;color:var(--text-dim);">${player.breakdown.total.toLocaleString()} pts so far</div>
+    </div>`}</div>
+  </div>`;
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
+  document.body.appendChild(ov);
+}
+window.openPlayerModal=openPlayerModal;
+
+// ── LOGIN ──
+function renderLogin(){
+  return `<div class="login-screen">
+    <div style="font-size:56px;animation:float 3s ease-in-out infinite;margin-bottom:8px;">🏆</div>
+    <div class="login-title">WORLD CUP<br>2026</div>
+    <div class="login-subtitle">Harrison Family Bracket</div>
+    <div class="login-card">
+      <span class="login-label">Who's playing?</span>
+      <div class="name-grid">
+        ${FAMILY_MEMBERS.map(fm=>`<div class="name-chip ${fm.isAdmin?'admin-chip':''}" data-name="${fm.name}" data-pl="${fm.pinLength}">${fm.name}${fm.isAdmin?' ⚙':''}</div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function bindLoginEvents(){
+  document.querySelectorAll('[data-name]').forEach(btn=>{
+    btn.addEventListener('click',()=>showPinModal(btn.dataset.name,parseInt(btn.dataset.pl)));
+  });
+}
+
+function bindPickEvents(){
+  // pick events are inline onclick, nothing extra needed
+}
+
+
+
+// ─── LIVE RESULTS API POLLING ───
+let pollInterval = null;
+let lastResultsHash = '';
+
+async function fetchLiveResults() {
+  try {
+    // Call our Netlify function proxy
+    const res = await fetch('/api/results');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.error) return;
+
+    // Hash the response to avoid unnecessary rerenders
+    const hash = JSON.stringify(data);
+    if (hash === lastResultsHash) return;
+    lastResultsHash = hash;
+
+    // Merge into results — keep predictionsLocked from Firestore
+    const wasLocked = results.predictionsLocked;
+    results = {
+      ...results,
+      groups: data.groups || results.groups,
+      qualifyingThirds: data.qualifyingThirds || results.qualifyingThirds,
+      ko: data.ko || results.ko,
+      currentStage: data.currentStage || results.currentStage,
+      lastUpdated: data.lastUpdated,
+      source: data.source,
+      predictionsLocked: wasLocked,
+    };
+
+    // Also push to Firestore so offline users get it too (admin only)
+    if (currentUser?.isAdmin) {
+      try {
+        await setDoc(doc(db, 'results', 'current'), {
+          ...results,
+          updatedAt: new Date().toISOString(),
+        });
+      } catch(e) {}
+    }
+
+    recomputeAllScores();
+    rerender();
+
+    // Update the last-refreshed indicator
+    const el = document.getElementById('lastUpdatedEl');
+    if (el) {
+      const t = new Date(data.lastUpdated);
+      el.textContent = 'Updated ' + t.toLocaleTimeString();
+    }
+
+  } catch(e) {
+    console.warn('Results fetch failed:', e.message);
+  }
+}
+
+function startPolling() {
+  fetchLiveResults(); // immediate first fetch
+  // Poll every 60s normally, every 30s if a match is live
+  pollInterval = setInterval(fetchLiveResults, 60000);
+}
+
+function stopPolling() {
+  if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+}
+
+// ─── INIT ───
+async function init() {
+  // Try auto-login from localStorage
+  const saved = localStorage.getItem('wc2026_user');
+  if (saved && FAMILY_MEMBERS.find(f=>f.name===saved)) {
+    await loginAs(saved);
+  } else {
+    rerender();
+  }
+  // Start polling for live results
+  startPolling();
+}
+
+// Start the app
+init();
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+</script>
+</body>
+</html>
